@@ -10,7 +10,8 @@
 #include <time.h>
 
 
-
+void ESTIMADOR1(float[],float[],float[]);
+void ESTIMADOR2(float[],float[],float[]);
 
 
 float main()
@@ -19,7 +20,7 @@ FILE*fp=NULL; //SE ABRE ARCHIVO DE LECTURA
 char*nombrearchivo="entrada.txt";
 
 
-float entradax[8], entraday[8], entradaz[8], E[24], r[24];//DECLARACIÓN DE ALGUNAS VARIABLES
+float entradax[8], entraday[8], entradaz[8], r[24];//DECLARACIÓN DE ALGUNAS VARIABLES
 
 
  //SE DEFINEN PUNTEROS:
@@ -39,6 +40,7 @@ float entradax[8], entraday[8], entradaz[8], E[24], r[24];//DECLARACIÓN DE ALGUN
  int i=0;
  fp = fopen(nombrearchivo, "r");
  if(fp==NULL)return -1;
+ printf("\nSimples:\n\n");
  for (i=0;i<8;i++)
  {
      fscanf(fp,"%f %f %f",&entradax[i],&entraday[i],&entradaz[i]);
@@ -48,9 +50,7 @@ float entradax[8], entraday[8], entradaz[8], E[24], r[24];//DECLARACIÓN DE ALGUN
 
 
      //SE IMPRIMEN VALORES DE MATRIZ CUBO
-     printf("%f\n", entradax[i]);
-     printf("%f\n", entraday[i]);
-     printf("%f\n", entradaz[i]);
+     printf("%.0f\t%.0f\t%.0f\n", entradax[i],entraday[i],entradaz[i]);
      //printf("%p\n", entradamem);
      //printf("%f\n", *entradamemx);
  }
@@ -73,18 +73,37 @@ printf("\naleatorios:\n\n");
 for (a=0;a<8;a++)
 {
      fscanf(fp2,"%f %f %f",&entrada_aleatoria_x[i],&entrada_aleatoria_y[i],&entrada_aleatoria_z[i]);
-     printf("%f\n", entrada_aleatoria_x[i]);
-     printf("%f\n", entrada_aleatoria_y[i]);
-     printf("%f\n", entrada_aleatoria_z[i]);
+     printf("%.0f\t%.0f\t%.0f\n", entrada_aleatoria_x[i],entrada_aleatoria_y[i],entrada_aleatoria_z[i]);
 }
 
+//USUARIO ELIGE TIPO DE ESTIMADOR
+int opcion;
+printf("\nMENU TIPO ESTIMADOR\n\n1. Estimador simple\n2. Estimador Landy-Szalay\n\nSeleccione una opcion: ");
+scanf("%i", &opcion);
+	switch(opcion){
+    case 1:
+    ESTIMADOR1(entradax,entraday,entradaz);
+    printf("\nEstimador Simple activo\n");
+    break;
+
+    case 2:
+    ESTIMADOR2(entrada_aleatoria_x,entrada_aleatoria_y,entrada_aleatoria_z);
+    printf("\n\nEstimador Landy-Szalay activo\n\n");
+    break;
+	}
 
 
-//CÁLCULOS:
-int j;
+return 0;
+}
+
+void ESTIMADOR1(float entradax[], float entraday[], float entradaz[])
+{
+    float DD=1,RR=1,nR=0, nD=0, nDR=0, E=0, temp=0,l,m=0;
+    FILE*fp=NULL; //SE ABRE ARCHIVO DE LECTURA
+    //CÁLCULOS:
+int i,j;
 char t;
-float l,temp=0,nD,nDR,m=0;
-float rD[24], rR[24];////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
 //CÁLCULOS DE ENTRADA:
 fp = fopen("entrada.txt", "r");
 while((t=fgetc(fp))!=EOF)
@@ -99,20 +118,20 @@ for(l=temp-1;l>0;l--)
 {
 nD+=l;
 }
-nDR=temp;
-//r:
+nR=temp;
 
-for(i=0;i<temp;i++)
-{
-for(j=i+1;j<temp;j++)
-    {
-    rD[i]=sqrt(pow((entradax[i]-entradax[j]),2)+pow((entraday[i]-entraday[j]),2)+pow((entradaz[i]-entradaz[j]),2));
-    }
+    fp=fopen("EstimadorSimple.txt","w"); E=((nR/nD)*(DD/RR))-1; fprintf(fp,"%f",E); printf("\nEstimador: %.2f\n",E); fclose(fp);
 }
 
-temp=0;
+void ESTIMADOR2(float entrada_aleatoria_x[], float entrada_aleatoria_y[], float entrada_aleatoria_z[])
+{
+    float DD=0,RR[24],nR=0, nD=0, nDR=0, E=0, temp=0,l,m=0,DR[24], dR,rR;
+    FILE*fp=NULL; //SE ABRE ARCHIVO DE LECTURA
+    //CÁLCULOS:
+int i,j;
+char t;
+
 //CÁLCULOS DE ALEATORIA:
-int nR;
 fp=fopen("aleatoria.txt","r");
 while((t=fgetc(fp))!=EOF)
 {
@@ -137,36 +156,30 @@ for(i=0;i<temp;i++)
 {
 for(j=i+1;j<temp;j++)
 {
-rR[i]=sqrt(pow((entrada_aleatoria_x[i]-entrada_aleatoria_x[j]),2)+pow((entrada_aleatoria_y[i]-entrada_aleatoria_y[j]),2)+pow((entrada_aleatoria_z[i]-entrada_aleatoria_z[j]),2));
+rR=sqrt(pow((entrada_aleatoria_x[i]-entrada_aleatoria_x[j]),2)+pow((entrada_aleatoria_y[i]-entrada_aleatoria_y[j]),2)+pow((entrada_aleatoria_z[i]-entrada_aleatoria_z[j]),2));
 }
 }
 int tempo;
 //REORDER FOR CALCULUS:
 for(i=0;i<nD;i++)
 {
-for(j=i+1;j<nD;j++){if(rD[j]<rD[i]){tempo=rD[i];rD[i]=rD[j];rD[j]=tempo;
+for(j=i+1;j<nD;j++){if(DR[j]<DR[i]){tempo=DR[i];DR[i]=DR[j];DR[j]=tempo;
 }}}
 
-for(i=0;i<nR;i++){for(j=i+1;j<nR;j++){if(rR[j]<rR[i]){tempo=rR[i];rR[i]=rR[j];rR[j]=tempo;
+for(i=0;i<nR;i++){for(j=i+1;j<nR;j++){if(RR[j]<RR[i]){tempo=RR[i];RR[i]=RR[j];RR[j]=tempo;
 }}}
 
+for(i=0;i<temp;i++)
+{
+for(j=i+1;j<temp;j++)
+    {
+    dR=sqrt(pow((entrada_aleatoria_x[i]-entrada_aleatoria_x[j]),2)+pow((entrada_aleatoria_y[i]-entrada_aleatoria_y[j]),2)+pow((entrada_aleatoria_z[i]-entrada_aleatoria_z[j]),2));
+    }
+}
 
-float LSz;
-//USUARIO ELIGE TIPO DE ESTIMADOR
-int opcion;
-printf("\nSi quieres utilizar estimador simple presiona 1 \no presiona 2 para Landy-Szalay\n");
-scanf("%i", &opcion);
-	switch(opcion){
-    case 1:
-    printf("Estimador Simple activo"); fp=fopen("EstimadorSimple.txt","w"); E=((nR/nD)*(DD/RR))-1; fprintf(fp,"%f",r); fclose(fp);
-    break;
+float LSz=0;
 
-    case 2:
-    printf("Estimador Landy-Szalay activo\n");
-			LSz=((DD/nD)-(2*DR/nDR)+(RR/nR))/(RR/nR);
-    break;
-	}
-
-
-return 0;
+LSz=((DD/nD)-(2*dR/nDR)+(rR/nR))/(rR/nR);
+LSz=0;
+printf("\nEstimado: %.2f",LSz);
 }
