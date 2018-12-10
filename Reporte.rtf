@@ -1,0 +1,155 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang2058{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 6.2.9200}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang10 %\\documentclass[options]\{class\}\par
+\\documentclass[10pt,journal]\{IEEEtran\}\par
+\par
+%Paquete de Idioma\par
+\\usepackage[spanish, es-tabla]\{babel\}\par
+\par
+%Codificaci\'f3n Alfabeto\par
+\\usepackage[utf8]\{inputenc\}\par
+\par
+%Codificaci\'f3n de Fuente\par
+\\usepackage[T1]\{fontenc\}\par
+\par
+%\'cdndice\par
+\\usepackage\{makeidx\}\par
+\par
+%Gr\'e1ficos\par
+\\usepackage\{graphicx\}\par
+\\usepackage\{float\} \par
+%\\usepackage\{xcolor\} \par
+\par
+%Matem\'e1tica\par
+\\usepackage\{amsmath\}\par
+\\usepackage\{amsfonts\}\par
+\\usepackage\{amssymb\}\par
+%\\usepackage\{amstext\} \par
+%Estilo de Tablas\par
+\\usepackage\{multirow\} \par
+\\usepackage\{multicol\} \par
+\\usepackage[table]\{xcolor\}\par
+%Estilo de P\'e1gina Numeraci\'f3n superior\par
+%\\pagestyle\{headings\}\par
+\par
+%Hiperlinks \\href\{url\}\{text\}\par
+\\usepackage[pdftex]\{hyperref\}\par
+\\definecolor\{lightgray\}\{gray\}\{0.9\}\par
+\par
+\\begin\{document\}\par
+\par
+%T\'edtulo\par
+\\title\{Funci\'f3n de Correlaci\'f3n de dos puntos para una distribuci\'f3n de puntos en 3 dimensiones.\}\par
+\par
+%Autor\par
+\\author\{Universidad de Guanajuato, Divisi\'f3n de Ciencias e Ingenier\'edas\\\\ Programaci\'f3n B\'e1sica\\\\\par
+Brandon Emmanuel Hernandez Corona\\\\ Jos\'e9 Misael Rojas S\'e1nchez \}\par
+\par
+\par
+\\maketitle\{\}  \par
+\par
+\par
+%Introducci\'f3n\par
+\\section\{Introducci\'f3n\}\par
+En las ultimas decadas han existido numerosos avances tecnol\'f3gicos, lo que se ha traducido en astronom\'eda en un gran cantidad de datos observacionales y en un incremento en limites de simulaciones alcanzables.\par
+\par
+Es por esto que fue necesario recurrir a diversas herramientas para estudiar estos nuevos datos. Una de estas funciones correlaci\'f3n $(\\xi(r))$, que es una herramienta estad\'edstica que ayuda a estudiar sistemas de muchos cuerpos, nos dan informaci\'f3n sobre la estructura evoluci\'f3n de sistemas, por ejemplo en la bioestadistica cuando relacionamos poblaciones de especies especificas, tambi\'e9n puede ser utilizada para el estudio de galaxias en en un sistema de n-cuerpos gravitatorios, etc.\par
+\par
+\par
+\par
+%Marco te\'f3rico\par
+\\section\{Teor\'eda\}\par
+La correlaci\'f3n es una medida de la relaci\'f3n(covariaci\'f3n) entre dos variables cuantitativas continuas (x,y). Esta medida o \'edndice de correlaci\'f3n -r- puede variar entre -1 y +1, ambos extremos indicando correlaciones perfectas, negativa y positiva respectivamente. Un valor de r = 0 indica que no existe relaci\'f3n lineal entre las dos variables. Una correlaci\'f3n positiva indica que ambas variables var\'edan en el mismo sentido. Una correlaci\'f3n negativa significa que ambas variables var\'edan en sentidos opuestos. Lo interesante del \'edndice de correlaci\'f3n es que r es en s\'ed mismo una medida del tama\'f1o del efecto, que suele interpretarse de la siguiente manera:\par
+\par
+\\begin\{itemize\}\par
+    \\item correlaci\'f3n \\textbf\{despreciable\}: $r < |0.1|$\par
+    \\item correlaci\'f3n \\textbf\{baja\}: $|0.1| < r <= |0.3|$\par
+    \\item correlaci\'f3n \\textbf\{mediana\}: $|0.3| < r <= |0.5|$\par
+    \\item correlaci\'f3n \\textbf\{fuerte o alta\}: $r > |0.5|$\par
+\\end\{itemize\}\par
+\par
+\\subsection\{Estimadores.\}\par
+\par
+Existen definiciones alternas para la funci\'f3n de correlaci\'f3n, estas funciones de n-puntos, la que nos interesa estudiar es la funci\'f3n de correlaci\'f3n de dos puntos.\par
+\par
+Mide el exceso de probabilidad de encontrar una galaxia a una distancia r de otra galaxia arbitraria en un elemento de volumen $ \\sigma V$.\par
+Para entender esto pensemos en una distribuci\'f3n de masa como una distribuci\'f3n de objetos puntuales; la probabilidad de encontrar un objeto en un elemtno infinitesimal $\\delta V$ es:\par
+\par
+\\begin\{equation\}\par
+    \\delta P = n\\delta V\par
+\\end\{equation\}\par
+\par
+con $n$ la densidad media de objetos, debido a que suponemos isotrop\'eda, $n$ es independiente de la posici\'f3n.\par
+Luego, la funci\'f3n correlaci\'f3n de dos puntos se define como la probabilidad conjunta de encontrar un objeto en los elementos de volumen $\\delta V_1$ y $\\delta V_2$ separados por $r_12$, esta probabilidad es dada por:\par
+\par
+\\begin\{equation\}\par
+    \\delta P = n^2 \\delta V_1 \\delta V_2[1 + \\xi(r_12)]\par
+\\end\{equation\}\par
+\par
+Si las posiciones del objeto est\'e1n correlacionadas se tiene que $\\xi > 0$, pero si estas no est\'e1n anticorrelacionas, se tiene que -1 <= $\\xi$ < 0.\par
+\par
+Por otro lado, debemos considerar que para hacer un mejor uso de la funci\'f3n correlaci\'f3n es necesario introducir una segunda expresi\'f3n que la defina, la cual es mas simple de usar en el momento en que se esta trabajando con datos experimentales o de alguna simulaci\'f3n.\par
+\par
+Esta se considera como un cubo con un lado $L$, donde se encuentran contenida un par de galaxias a una distancia $r +dr$ en una muestra de galaxias $(DD(r))$ y el n\'famero de pares esperado en la ausencia de de clustering $(RR(r))$, que se encuentran a una distancia $r + dr$, tomando en cuenta los limites de la muestra y considerando una distribuci\'f3n homogenea. Explicitamente la expresi\'f3n tiene la siguiente forma:\par
+\par
+\\begin\{equation\}\par
+    1 + \\xi (r) = \\frac\{DD(r)\}\{RR(r\}\par
+\\end\{equation\}\par
+\par
+\\begin\{itemize\}\par
+    \\item Para estimar $DD(r)$ se deben calcular las distnacias que hay entre los objetos de la muestra, tenindo estos datos podemos pasar a clasificar el n\'famero de galaxias que hay por rango de distancia, finalmente este n\'famero correspondera al valor DD(r). \par
+    \\item Para estimar $RR(r)$ consideraremos una distribuci\'f3n de poisson para las objetos en un volumen definido, la expresi\'f3n para esto es:\par
+    \par
+    \\begin\{equation\}\par
+        RR(r) = \\frac\{2 \\pi(r^3_e - r^3)N^2_g\}\{3V\}\par
+    \\end\{equation\}\par
+    donde $N_g$ es el n\'famero de objetos que hay en el vol\'famen, el cual dependera de las dimensiones de la muestra de la cual se obtuvieron los datos; $r_e = r + dr$ donde $dr$ es el radio del casquete esferico dado por el radio interior r.\par
+\\end\{itemize\} \par
+\par
+\par
+\par
+%Montaje\par
+\par
+\\section\{Programa.\}\par
+\par
+Estimar la funci\'f3n de correlaci\'f3n del grupo de datos usado utilizaremos la ecuaci\'f3n (3). Esto sginifica que el codigo necesario para calcular datos de la muestra, debe de realizar un conteo de la cantidad de datos cuyas dirancias esten dentro de un cierto ranfo de distnacias, calcular $RR(r)$ para ese rango de distancias y luego realizar el ajuste correpondiente.\par
+\par
+Entonces, lo anterior se puede considerar para determinar las distancias entre los objetos de la muestra. Para esto consideramos las columnas correspondientes a las coordenadas $x$, $y$, y $z$ de cada objeto. Estos datos son guardados en nuestro arreglo para que el manejo sea m\'e1s eficiente. Entonces teniendo los valores de $x$, $y$, y $z$, la distancia se calcula por medio de la siguiente formula: \par
+\par
+\\begin\{equation\}\par
+r=\\sqrt\{dx^2 + dy^2 + dz^2\}   \par
+\\end\{equation\}\par
+\par
+donde $dx$, $dy$ y $dz$ son dados por las diferencias entre las correspondientes coordenadas de los objetos que se calculan; o sea:\par
+\par
+\\begin\{equation\}\par
+    dx = x_1 - x_2, dy = y_1 - y_2, dz = z_1 - z_2\par
+\\end\{equation\}\par
+\par
+Teniendo las distancias calculadas y guardadas en este arreglo se pasa a crear un nuevo arreglo donde cada matriz correspondera a un rango de distancia distinto. Con este arreglo se comienza a contar la cantidad de pares que hay por cada ranfo de distancia $(DD(r))$, luego el n\'famero que arroje se guarda en la matriz correspondiente.\par
+\par
+Al final calculamos los $RR(r)$ por medio de la ecuacion (4) para cada rango de distancia con el que definimos el arreglo anterior.  Con estos valores se pueden obtener las cantidades obtenidas de $DD(r)$ y este nuevo valor vuleve a ser guardado en el arreglo y en la matriz de las distancias.\par
+El valor que obtengamos para el final sera determinado como el estimador de funci\'f3n correlaci\'f3n de los puntos.\par
+\par
+\par
+%Resultados\par
+\par
+%Bibliograf\'eda\par
+\par
+\\begin\{thebibliography\}\{X\}\par
+Peebles, Phillip J. E. The large-scale structure of the universe\par
+.Princeton University Press (1980)\par
+Davis M., Peebles P., 1982, ApJ, 267, 465D.\par
+Davis M. et al, 1988, ApJ, 333L, 9D.\par
+\par
+\par
+\\end\{thebibliography\}\par
+\par
+\\end\{document\}\par
+\par
+\par
+\par
+\par
+\par
+}
+ 
